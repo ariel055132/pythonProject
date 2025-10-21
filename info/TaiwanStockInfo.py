@@ -1,4 +1,3 @@
-import argparse
 import os
 import sys
 import pandas as pd
@@ -11,6 +10,7 @@ sys.path.append(project_root)
 
 from utils.requestUtils import request_get
 from utils.csvUtils import save_to_csv
+from utils.commandLineInterface import CommandLineInterface
 
 class TaiwanStockInfo:
     def __init__(self):
@@ -36,12 +36,9 @@ class TaiwanStockInfo:
         return data
 
 def main():
-    parser = argparse.ArgumentParser(description="Fetch Taiwan Stock Deal Info")
-    parser.add_argument("stock_id", type=str, help="Stock ID (e.g 0050)")
-    parser.add_argument("start_date", type=str, help="Start date (e.g 2021-09-13)")
-    parser.add_argument("end_date", type=str, nargs="?", default=None, help="End date (YYYY-MM-DD, optional)")
-    parser.add_argument("--output", type=str, default="stock_data.csv", help="Output CSV file name")
-    args = parser.parse_args()
+    # Use the CommandLineInterface class for argument parsing
+    cli = CommandLineInterface()
+    args = cli.parse_arguments()
 
     stock_finmind = TaiwanStockInfo()
     stock_deal_info = stock_finmind.get_stock_deal_info(args.stock_id, args.start_date, args.end_date)
